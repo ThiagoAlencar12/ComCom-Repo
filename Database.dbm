@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1" last-position="0,138" last-zoom="1.05"
+	 default-schema="public" default-owner="postgres">
+<database name="ComCom" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="Users">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="240" y="220"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="password" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="Users_pk" type="pk-constr" table="public.&quot;Users&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="messages">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="860" y="340"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="messages">
+		<type name="text" length="0"/>
+	</column>
+	<column name="remetente_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="destinatario_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="updated_at" not-null="true">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="messages_pk" type="pk-constr" table="public.messages">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Grupo">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="260" y="580"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="users">
+		<type name="uuid" length="0"/>
+		<comment><![CDATA[Array de uuid 
+]]></comment>
+	</column>
+	<column name="name" not-null="true">
+		<type name="varchar" length="0"/>
+	</column>
+	<column name="users_id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<constraint name="Grupo_pk" type="pk-constr" table="public.&quot;Grupo&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="Many To Many Grupo Users" type="relnn"
+	 src-col-pattern="{sc}_{st}" dst-col-pattern="{sc}_{dt}"
+	 pk-pattern="{gt}_pk" uq-pattern="{gt}_uq"
+	 src-fk-pattern="{st}_fk" dst-fk-pattern="{dt}_fk"
+	 pk-col-pattern="id"
+	 custom-color="#cd675c"
+	 src-table="public.&quot;Grupo&quot;"
+	 dst-table="public.&quot;Users&quot;"
+	 src-required="false" dst-required="false"
+	 table-name="Many To Many Grupo Users">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<constraint name="message_remetent_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="SET DEFAULT" ref-table="public.&quot;Users&quot;" table="public.messages">
+	<columns names="remetente_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="destinatario_message_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="SET DEFAULT" ref-table="public.&quot;Users&quot;" table="public.messages">
+	<columns names="destinatario_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="id_users" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.&quot;Users&quot;" table="public.&quot;Grupo&quot;">
+	<columns names="users_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="&quot;rel_messages_Users&quot;" type="relfk"
+	 src-table="public.messages"
+	 dst-table="public.&quot;Users&quot;" reference-fk="message_remetent_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="One To Many Users Messages" type="relfk"
+	 src-table="public.messages"
+	 dst-table="public.&quot;Users&quot;" reference-fk="destinatario_message_fk"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="0" y="0"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="One to Many Grupo" type="relfk"
+	 src-table="public.&quot;Grupo&quot;"
+	 dst-table="public.&quot;Users&quot;" reference-fk="id_users"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+</dbmodel>

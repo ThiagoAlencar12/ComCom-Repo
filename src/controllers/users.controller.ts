@@ -14,20 +14,20 @@ export class UsersController {
   }
 
   @Post('/create')
-  async create(@Body() blocoData: Users): Promise<Users> {
-    return this.usersService.create(blocoData);
+  async create(@Body() usersData: Users): Promise<Users> {
+    return this.usersService.create(usersData);
   }
 
   @Put('/update/:id')
-  async update(@Param('id') id, @Body() blocoData: Users): Promise<any> {
-      blocoData.id = Number(id);
-      console.log('Update #' + blocoData.id)
+  async update(@Param('id') id: string, @Body() usersData: Users): Promise<Users> {
+      usersData.id = String(id);
+      console.log('Update #' + usersData.id)
 
-      return this.usersService.update(blocoData);
+      return this.usersService.update(usersData);
   }
   
   @Delete('/delete/:id')
-  async delete(@Param('id') id): Promise<any> {
+  async delete(@Param('id') id: string): Promise<any> {
     return this.usersService.delete(id);
   } 
 }

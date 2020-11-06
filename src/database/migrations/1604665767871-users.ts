@@ -1,6 +1,7 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class message1604595943639 implements MigrationInterface {
+export class users1604665767871 implements MigrationInterface {
+
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
         await queryRunner.createTable(new Table({
@@ -8,9 +9,10 @@ export class message1604595943639 implements MigrationInterface {
             columns: [
                 {
                     name: 'id',
-                    type: 'uuid',   
+                    type: 'uuid',
                     isPrimary: true,
-                    generationStrategy: "uuid",
+                    generationStrategy: 'uuid',
+                    default: 'uuid_generate_v4()',
                 },
                 {
                     name: 'name',
@@ -25,19 +27,18 @@ export class message1604595943639 implements MigrationInterface {
                 {
                    name: 'email',
                    type: 'varchar',
-                   isUnique: true,
                    isNullable: false,
                 },
                 {
                     name: 'created_at',
                     type: 'timestamp',
                     default: 'now()',
-                  },
-                  {
+                },
+                {
                     name: 'updated_at',
                     type: 'timestamp',
                     default: 'now()',
-                  },
+                },
             ]
         }))
     }

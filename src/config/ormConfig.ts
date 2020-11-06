@@ -4,7 +4,7 @@ const Options: TypeOrmModuleOptions = {
  type: 'postgres',
  username: 'postgres',
  password: 'docker',
- database: 'nestjs',
+ database: 'ComCom',
  host: 'localhost',
  port: 5432,
  entities: [__dirname + '/../**/*.entity.{js,ts}'],

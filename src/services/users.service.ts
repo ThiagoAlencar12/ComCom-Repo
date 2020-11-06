@@ -1,7 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { Repository, UpdateResult, DeleteResult } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { hash } from 'bcrypt';
 import Users from '../models/user.entity';
+
+interface RequestDTO {
+  name: string;
+  email: string;
+  password: string;
+}
+
+interface UpdateDTO {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}
 
 @Injectable()
 export class UsersService {
@@ -10,25 +24,68 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  async findAll(): Promise<Users[]> {
-    return await this.usersRepository.find()
+async findAll(): Promise<Users[]> {
+  return await this.usersRepository.find()
 }
 
-// async findById(id_projects: number): Promise<Users> {
-//   const findId = await this.usersRepository.findOne({ where : {id_projects}})
+async findById(id: string): Promise<Users> {
+  const checkUser = await this.usersRepository.findOne({
+    where: { id }
+  });
 
-//   return findId;
-// }
-
-async create(users: Users): Promise<Users> {
-    return await this.usersRepository.save(users);
+  return checkUser;
 }
 
-async update(users: Users): Promise<UpdateResult> {
-    return await this.usersRepository.update(users.id, users);
+async findByEmail(email: string): Promise<Users> {
+  const checkEmail = await this.usersRepository.findOne({
+    where: {email}
+  })
+
+  return checkEmail;
 }
 
-async delete(id): Promise<DeleteResult> {
-    return await this.usersRepository.delete(id);
+async create({ name, email, password }: RequestDTO): Promise<Users> {
+  const findEmail = await this.findByEmail(email);
+
+  if(findEmail) {
+    throw new Error('This E-mail Already Exist');
+  }
+
+  const hashPassword = await hash(password, 8);
+
+  return await this.usersRepository.save({
+    name,
+    email,
+    password: hashPassword
+  });
+}
+
+async update({ id ,name, email, password }: UpdateDTO): Promise<Users> {
+  const users = await this.findById(id);
+
+  if (!users) {
+    throw new Error('This User Not Exist');
+  }
+
+  const checkEmail = await this.findByEmail(email);
+
+  if (checkEmail) {
+    throw new Error('This E-Mail Already Exist')
+  }
+  users.name = name;
+  users.password = await hash(password, 8);
+
+  return this.usersRepository.save(users);
+
+}
+
+async delete(id: string): Promise<DeleteResult> {
+   const checkUsers = await this.findById(id);
+
+   if (!checkUsers) {
+     throw new Error('This User Not Exist');
+   }
+
+   return this.usersRepository.delete(id);
 }
 }
