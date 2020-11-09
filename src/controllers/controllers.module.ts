@@ -1,10 +1,10 @@
 import { Global, Module } from '@nestjs/common';
-import { UsersController } from './users.controller'; 
-import { MessageController } from './message.controller';
-import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import {constants } from '../auth/auth.constants';
 
+import { UsersController } from './users.controller'; 
+import { MessageController } from './message.controller';
+import { AuthController } from './auth.controller';
 
 @Global()
 @Module({
