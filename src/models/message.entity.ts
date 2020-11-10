@@ -21,9 +21,12 @@ class Messages {
   @Column()
   destinatario_id: string;
 
-  @JoinColumn({ name: 'remetente_id, destinatario_id' })
+  @JoinColumn({ name: 'remetente_id' })
   @ManyToMany(() => User )
   user: User;
+
+  @JoinColumn({ name: 'destinatario_id' })
+  @ManyToMany(() => User )
 
   @CreateDateColumn()
   created_at: Date;
@@ -32,5 +35,4 @@ class Messages {
   updated_at: Date;
 
 }
-
 export default Messages;

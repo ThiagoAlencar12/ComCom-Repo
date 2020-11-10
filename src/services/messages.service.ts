@@ -5,15 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Messages from '../models/message.entity';
 
 interface RequestDTO {
+  id: string;
   message: string;
+  destinatario_id: string;
+  remetente_id: string;
 }
-
-// interface UpdateDTO {
-//   id: string;
-//   name: string;
-//   email: string;
-//   password: string;
-// }
 
 @Injectable()
 export class MessageService {
@@ -34,22 +30,12 @@ async findById(id: string): Promise<Messages> {
   return checkMessage;
 }
 
-// async findByEmail(email: string): Promise<Messages> {
-//   const checkEmail = await this.messageRepository.findOne({
-//     where: {email}
-//   })
-
-//   return checkEmail;
-// }
-
-// async findByIDWithPassword(id: string): Promise<Messages> {
-//   return await this.messageRepository.findOne(id)
-// }
-
-async create({ message }: RequestDTO): Promise<Messages> {
+async create({ message, destinatario_id, remetente_id }: RequestDTO): Promise<Messages> {
   const messages = this.messageRepository.save({
-    message
-  })
+    message,
+    destinatario_id,
+    remetente_id,
+  });
 
   return messages;
 } 

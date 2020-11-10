@@ -1,7 +1,12 @@
-import { Controller, Get, Post, Body, Param, Put, Delete} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete} from '@nestjs/common';
 import { MessageService } from '../services/messages.service';
 
 import Messages from '../models/message.entity';
+
+interface MessagesDTO {
+  message: string;
+  destinatario_id: string
+}
 
 @Controller('messages')
 export class MessageController {
@@ -15,7 +20,7 @@ export class MessageController {
   }
 
   @Post('/create')
-  async create(@Body() messageData: Messages): Promise<Messages> {
+  async create(@Body() @Param('id') messageData: Messages): Promise<Messages> {
     return this.messageService.create(messageData);
   }
 
