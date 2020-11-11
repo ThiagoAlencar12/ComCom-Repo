@@ -39,7 +39,7 @@ export class users1604665767871 implements MigrationInterface {
                     type: 'timestamp',
                     default: 'now()',
                 },
-            ]
+          ]
         }))
     }
 

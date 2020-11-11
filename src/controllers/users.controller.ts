@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Body, Param, Put, Delete} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
+import { CurrentUser } from '../decoretors/current-user.decorator';
 import { UsersService } from '../services/users.service';
+import { RestAuthGuard } from '../guards/rest-auth.guard';
 import Users from '../models/user.entity';
 
 @Controller('users')
@@ -7,6 +9,13 @@ export class UsersController {
   constructor(
     private usersService: UsersService,
   ) {}
+
+  @Get('users')
+  @UseGuards(RestAuthGuard)
+  async current(@CurrentUser() currentUser: Users): Promise<Users> {
+    console.log(currentUser)
+    return currentUser
+  }
 
   @Get('/')
   index(): Promise<Users[]> {
@@ -30,4 +39,6 @@ export class UsersController {
   async delete(@Param('id') id: string): Promise<any> {
     return this.usersService.delete(id);
   } 
+
+
 }
