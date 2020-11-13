@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToMany } from 'typeorm';
-import User from '../models/user.entity';
+import{ Users } from '../models/user.entity';
 
 @Entity('messages')
-class Messages {
+export class Messages {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,11 +22,11 @@ class Messages {
   destinatario_id: string;
 
   @JoinColumn({ name: 'remetente_id' })
-  @ManyToMany(() => User )
-  user: User;
+  @ManyToMany(() => Users )
+  user: Users;
 
   @JoinColumn({ name: 'destinatario_id' })
-  @ManyToMany(() => User )
+  @ManyToMany(() => Users )
 
   @CreateDateColumn()
   created_at: Date;
@@ -35,4 +35,3 @@ class Messages {
   updated_at: Date;
 
 }
-export default Messages;

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards} from '@nestjs/common';
 import { MessageService } from '../services/messages.service';
 
-import Messages from '../models/message.entity';
+import {Messages} from '../models/message.entity';
+import { RestAuthGuard } from 'src/guards';
 
 interface MessagesDTO {
   message: string;
@@ -20,6 +21,7 @@ export class MessageController {
   }
 
   @Post('/create')
+  @UseGuards(RestAuthGuard)
   async create(@Body() @Param('id') messageData: Messages): Promise<Messages> {
     return this.messageService.create(messageData);
   }

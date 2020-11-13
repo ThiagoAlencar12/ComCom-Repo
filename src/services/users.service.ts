@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
-import Users from '../models/user.entity';
+import { Users } from '../models/user.entity';
 
 interface RequestDTO {
   name: string;
@@ -24,7 +24,7 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-async findAll(): Promise<Users[]> {
+async find(): Promise<Users[]> {
   return await this.usersRepository.find()
 }
 
@@ -38,7 +38,7 @@ async findById(id: string): Promise<Users> {
 
 async findByEmail(email: string): Promise<Users> {
   const checkEmail = await this.usersRepository.findOne({
-    where: {email}
+    where: { email }
   })
 
   return checkEmail;
@@ -52,7 +52,7 @@ async create({ name, email, password }: RequestDTO): Promise<Users> {
   const findEmail = await this.findByEmail(email);
 
   if(findEmail) {
-    throw new Error('This E-mail Already Exist');
+    throw new BadRequestException('This E-mail Already Exist');
   }
 
   const hashPassword = await hash(password, 8);

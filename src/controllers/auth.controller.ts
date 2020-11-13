@@ -4,7 +4,7 @@ import { compare } from 'bcrypt';
 import { UsersService } from "../services/users.service";
 import { SignInDto, Token } from '../dtos/SignInDTO';
 import { JwtService } from "@nestjs/jwt";
-import Users from '../models/user.entity';
+import{ Users } from '../models/user.entity';
 
 @Controller('auth')
 export class AuthController {

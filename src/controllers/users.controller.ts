@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nes
 import { CurrentUser } from '../decoretors/current-user.decorator';
 import { UsersService } from '../services/users.service';
 import { RestAuthGuard } from '../guards/rest-auth.guard';
-import Users from '../models/user.entity';
+import { Users }from '../models/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -10,16 +10,15 @@ export class UsersController {
     private usersService: UsersService,
   ) {}
 
-  @Get('users')
+  @Get('current')
   @UseGuards(RestAuthGuard)
   async current(@CurrentUser() currentUser: Users): Promise<Users> {
-    console.log(currentUser)
     return currentUser
   }
 
   @Get('/')
   index(): Promise<Users[]> {
-    return this.usersService.findAll();
+    return this.usersService.find();
   }
 
   @Post('/create')
