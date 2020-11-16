@@ -21,7 +21,9 @@ export default class TestUtil {
     user.id = '1';
     user.name = 'Test User';
     user.email = 'user@email.com';
-    
+    user.password = '123123';
+    user.online = true;
+
     return user;
   }
 }
@@ -31,6 +33,7 @@ export const mockUserModel: Users = {
   name: 'Test User',
   email: 'user@email.com',
   password: '123123',
+  online: true,
   ...mockAddAccountParams,
 };
 
@@ -46,11 +49,20 @@ export const mockUserArrayModel: Users[] = [
     name: 'Test User 2',
     email: 'email2@email.com',
     password: 'teste',
+    online: true
   },
   {
     id: '3',
     name: 'Test User 3',
     email: 'email3@email.com',
-    password: 'teste'
+    password: 'teste',
+    online: true
   },
+  {
+    id: '3',
+    name: 'Test User 3',
+    email: 'email3@email.com',
+    password: 'teste',
+    online: false
+  }
 ];

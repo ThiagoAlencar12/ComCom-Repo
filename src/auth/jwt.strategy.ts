@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any): Promise<Users> {
     const { id } = payload
 
-    const user = await this.service.findByIDWithPassword(id)
+    const user = await this.service.findById(id)
     if (!user) {
       throw new UnauthorizedException('Usuário inexistente.')
     }

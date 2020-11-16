@@ -14,6 +14,9 @@ export class Users {
   @Column()
   password: string;
 
+  @Column()
+  online: boolean;
+
   @CreateDateColumn()
   created_at?: Date;
 

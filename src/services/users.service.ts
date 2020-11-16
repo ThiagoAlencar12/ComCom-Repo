@@ -44,10 +44,6 @@ async findByEmail(email: string): Promise<Users> {
   return checkEmail;
 }
 
-async findByIDWithPassword(id: string): Promise<Users> {
-  return await this.usersRepository.findOne(id)
-}
-
 async create({ name, email, password }: RequestDTO): Promise<Users> {
   const findEmail = await this.findByEmail(email);
 

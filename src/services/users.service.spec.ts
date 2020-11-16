@@ -13,8 +13,7 @@ describe('UsersService', () => {
   const mockRepository = {
     find: jest.fn(),
     findOne: jest.fn().mockReturnValue(mockUserModel),
-    findByEmail: jest.fn(),
-    findByIDWithPassword: jest.fn(),
+    findByEmail: jest.fn().mockReturnValue(mockUserModel),
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
@@ -56,4 +55,17 @@ describe('UsersService', () => {
     expect(mockRepository.findOne).toHaveBeenCalledTimes(1);
    });
 
+   it('should be able to check user e-mail', async () => {
+    const user = TestUtil.giveMeAValideUser();
+    mockRepository.findByEmail.mockReturnValue(user);
+    
+    const userEmail = await serviceUser.findByEmail('user@email.com');
+
+    expect(userEmail).toMatchObject({ email: user.email });
+    expect(mockRepository.findByEmail);
+   });
+
+   it('should be able to create a new user', () => {
+     console.log("Criado")
+   });
 });

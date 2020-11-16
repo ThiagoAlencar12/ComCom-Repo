@@ -38,6 +38,4 @@ export class UsersController {
   async delete(@Param('id') id: string): Promise<any> {
     return this.usersService.delete(id);
   } 
-
-
 }
