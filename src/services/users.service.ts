@@ -29,9 +29,7 @@ async find(): Promise<Users[]> {
 }
 
 async findById(id: string): Promise<Users> {
-  const checkUser = await this.usersRepository.findOne({
-    where: { id }
-  });
+  const checkUser = await this.usersRepository.findOne(id);
 
   return checkUser;
 }

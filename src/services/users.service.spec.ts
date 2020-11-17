@@ -4,6 +4,8 @@ import { UsersService } from '../services/users.service';
 import{ Users } from '../models/user.entity';
 import { 
   mockUserModel,
+  mockUserArrayModel,
+  mockAddAccountParams
 } from '../fakes/test/TestUtils';
 import TestUtil from '../fakes/test/TestUtils';
 
@@ -11,15 +13,16 @@ describe('UsersService', () => {
   let serviceUser: UsersService;
 
   const mockRepository = {
-    find: jest.fn(),
+    find: jest.fn().mockReturnValue(mockUserArrayModel),
     findOne: jest.fn().mockReturnValue(mockUserModel),
-    findByEmail: jest.fn().mockReturnValue(mockUserModel),
     create: jest.fn(),
+    save: jest.fn().mockReturnValue(mockUserModel),
+    findByEmail: jest.fn().mockReturnValue(mockUserModel),
     update: jest.fn(),
     delete: jest.fn(),
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
@@ -32,40 +35,69 @@ describe('UsersService', () => {
     serviceUser = moduleRef.get<UsersService>(UsersService);
   });
 
+  beforeEach(() => {
+    mockRepository.find.mockReset();
+    mockRepository.delete.mockReset();
+    mockRepository.create.mockReset();
+    mockRepository.find.mockReset();
+    mockRepository.findByEmail.mockReset();
+    mockRepository.findOne.mockReset();
+  });
+
   it('should be defined',() => {
     expect(serviceUser).toBeDefined();
   });
 
   it('should be able to list all users', async () => {
-    const user = TestUtil.giveMeAValideUser();
-    mockRepository.find.mockReturnValue([user, user]);
+    const user = serviceUser.find();
 
-    const users = await serviceUser.find();
-
-    expect(users).toHaveLength(2);
+    expect(user).resolves.toBe(mockUserArrayModel);
     expect(mockRepository.find).toHaveBeenCalledTimes(1);
    });
 
    it('should be able to find user by id', async () => {
-    const user = TestUtil.giveMeAValideUser();
-    mockRepository.findOne.mockReturnValue(user);
-    const userFound = await serviceUser.findById('1');
-    
-    expect(userFound).toMatchObject({ id: user.id, email: user.email });
-    expect(mockRepository.findOne).toHaveBeenCalledTimes(1);
+    const userFound = serviceUser.findById('1');
+
+    expect(mockRepository.findOne).toHaveBeenCalledWith(mockUserModel.id);
+    expect(userFound).resolves.toBe(mockUserModel);
    });
 
-   it('should be able to check user e-mail', async () => {
-    const user = TestUtil.giveMeAValideUser();
-    mockRepository.findByEmail.mockReturnValue(user);
-    
-    const userEmail = await serviceUser.findByEmail('user@email.com');
+   it('should be able to find user by email', async () => {
+    const userFound = serviceUser.findByEmail('user@temail.com');
 
-    expect(userEmail).toMatchObject({ email: user.email });
     expect(mockRepository.findByEmail);
+    expect(userFound).resolves.toBe(mockUserModel);
    });
 
-   it('should be able to create a new user', () => {
-     console.log("Criado")
-   });
+  //  it('should be able to check user e-mail', async () => {
+  //   const user = TestUtil.giveMeAValideUser();
+  //   mockRepository.findByEmail.mockReturnValue(user.email);
+  //   const userEmailFound = await serviceUser.findByEmail('user@email.com');
+  //   expect(userEmailFound).toBe(user.email);
+  //   expect(mockRepository.findByEmail).toBeCalledTimes(1);
+  //  });
+
+  //  it('Should create a user', async () => {
+  //  const user = TestUtil.giveMeAValideUser();
+  //  mockRepository.create.mockReturnValue({
+  //    name: 'Thiago Alencar',
+  //    email: 'thiagoTeste@gmail.com',
+  //    password: 'password',
+  //  });
+  //  mockRepository.save.mockReturnValue({
+  //   name: 'Thiago Alencar',
+  //   email: 'thiagoTeste@gmail.com',
+  //   password: 'password',
+  //  });
+
+  //  const userFound = serviceUser.findByEmail('user@temail.com');
+
+  //  const savedUser = await serviceUser.create(user);
+  //  expect(savedUser).toMatchObject(user);
+  //  expect(mockRepository.findByEmail);
+  //  expect(userFound).resolves.toBe(mockUserModel);
+  //  expect(mockRepository.create).toBeCalledTimes(1);
+  //  expect(mockRepository.save).toBeCalledTimes(1);
+  // });
+
 });

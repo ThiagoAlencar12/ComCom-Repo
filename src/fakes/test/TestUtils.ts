@@ -5,8 +5,8 @@ import { Users } from '../../models/user.entity';
 export const mockAddAccountParams = {
   id: '1',
   name: 'Test User',
-  email: 'user@email.com',
-  password: '123123'
+  email: 'user@gemail.com',
+  password: '123123',
 };
 
 // export const mockUpdateUserParams: UpdateUserInput = {
@@ -31,10 +31,9 @@ export default class TestUtil {
 export const mockUserModel: Users = {
   id: '1',
   name: 'Test User',
-  email: 'user@email.com',
+  email: 'user@temail.com',
   password: '123123',
   online: true,
-  ...mockAddAccountParams,
 };
 
 export const mockUpdatedUserModel: Users = {
