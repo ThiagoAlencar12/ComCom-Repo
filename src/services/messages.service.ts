@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -30,7 +30,23 @@ async findById(id: string): Promise<Messages> {
   return checkMessage;
 }
 
+async findByUsers(destinatario_id: string): Promise<Messages> {
+  const findUsers = await this.messageRepository.findOne({
+    where: {
+      destinatario_id
+    }
+  });
+
+  return findUsers;
+}
+
 async create({ message, destinatario_id, remetente_id }: RequestDTO): Promise<Messages> {
+  const findUserToSendEmail = await this.findByUsers(destinatario_id);
+
+  if (!findUserToSendEmail) {
+    throw new BadRequestException('User destination not exist');
+  }
+
   const messages = this.messageRepository.save({
     message,
     destinatario_id,
@@ -39,23 +55,6 @@ async create({ message, destinatario_id, remetente_id }: RequestDTO): Promise<Me
 
   return messages;
 } 
-
-// async update({ id ,name, email, password }: UpdateDTO): Promise<Messages> {
-//   const users = await this.findById(id);
-
-//   if (!users) {
-//     throw new Error('This User Not Exist');
-//   }
-
-//   const checkEmail = await this.findByEmail(email);
-
-//   if (checkEmail) {
-//     throw new Error('This E-Mail Already Exist')
-//   }
-
-//   return this.messageRepository.save(users);
-
-// }
 
 async delete(id: string): Promise<DeleteResult> {
    const checkUsers = await this.findById(id);
