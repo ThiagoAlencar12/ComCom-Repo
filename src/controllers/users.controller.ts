@@ -17,6 +17,7 @@ export class UsersController {
   }
 
   @Get('/')
+  @UseGuards(RestAuthGuard)
   index(): Promise<Users[]> {
     return this.usersService.find();
   }
@@ -26,6 +27,7 @@ export class UsersController {
     return this.usersService.create(usersData);
   }
 
+  @UseGuards(RestAuthGuard)
   @Put('/update/:id')
   async update(@Param('id') id: string, @Body() usersData: Users): Promise<Users> {
       usersData.id = String(id);
@@ -34,6 +36,7 @@ export class UsersController {
       return this.usersService.update(usersData);
   }
   
+  @UseGuards(RestAuthGuard)
   @Delete('/delete/:id')
   async delete(@Param('id') id: string): Promise<any> {
     return this.usersService.delete(id);

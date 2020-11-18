@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
-import {Users} from '../models/user.entity';
+import { Users } from '../models/user.entity';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import {Users} from '../models/user.entity';
       Users
     ]),
     PassportModule.register({
-      defaultStrategy: 'jwt'
+      defaultStrategy: 'jwt',
     }),
   ],
   providers: [

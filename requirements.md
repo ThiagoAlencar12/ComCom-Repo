@@ -51,3 +51,10 @@ Group -> group_messagess
 - Armazenar um array de ids na tabela Group()
 
 
+*** Fazendo ***
+[x] - Função de sender_id ser já o user logado
+[x] - CRUD de E-mails
+[x] - Relacionamento de E-mails com Users
+
+[first] - Grupos
+[second] - Conversa

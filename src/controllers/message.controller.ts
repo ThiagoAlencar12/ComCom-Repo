@@ -3,10 +3,15 @@ import { MessageService } from '../services/messages.service';
 
 import { Messages } from '../models/message.entity';
 import { RestAuthGuard } from 'src/guards';
+import { Users } from 'src/models/user.entity';
+import { CurrentUser } from 'src/decoretors/current-user.decorator';
 
 interface MessagesDTO {
   message: string;
-  destinatario_id: string
+  sender_id: string;
+  destinatary_id: string;
+  hidden?: boolean;
+  hidden_all?: boolean;
 }
 
 @Controller('messages')
@@ -22,19 +27,16 @@ export class MessageController {
 
   @Post('/create')
   @UseGuards(RestAuthGuard)
-  async create(@Body() @Param('id') messageData: Messages): Promise<Messages> {
-    return this.messageService.create(messageData);
+  async create(@CurrentUser() currentUser: Users ,@Body() @Param('id') { destinatary_id, message }: MessagesDTO): Promise<Messages> {
+    return this.messageService.create({
+      sender_id: currentUser.id,
+      destinatary_id,
+      message,
+    });
   }
 
   @Delete('/delete/:id')
   async delete(@Param('id') id: string): Promise<any> {
     return this.messageService.delete(id);
   } 
-
-// @Put('/update/:id')
-  // async update(@Param('id') id: string, @Body() messageData: Messages): Promise<Messages> {
-  //     messageData.id = String(id);
-  //     console.log('Update #' + messageData.id)
-  //     return this.messageService.update(messageData);
-  // }
 }

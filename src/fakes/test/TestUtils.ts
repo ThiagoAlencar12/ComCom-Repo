@@ -34,6 +34,8 @@ export const mockUserModel: Users = {
   email: 'user@temail.com',
   password: '123123',
   online: true,
+  created_at: new Date(),
+  updated_at: new Date(),
 };
 
 export const mockUpdatedUserModel: Users = {
@@ -48,20 +50,27 @@ export const mockUserArrayModel: Users[] = [
     name: 'Test User 2',
     email: 'email2@email.com',
     password: 'teste',
-    online: true
+    online: true,
+    created_at: new Date(),
+    updated_at: new Date(),
+
   },
   {
     id: '3',
     name: 'Test User 3',
     email: 'email3@email.com',
     password: 'teste',
-    online: true
+    online: true,
+    created_at: new Date(),
+    updated_at: new Date(),
   },
   {
     id: '3',
     name: 'Test User 3',
     email: 'email3@email.com',
     password: 'teste',
-    online: false
+    online: false,
+    created_at: new Date(),
+    updated_at: new Date(),
   }
 ];

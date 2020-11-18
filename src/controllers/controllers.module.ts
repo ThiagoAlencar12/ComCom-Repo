@@ -5,6 +5,7 @@ import {constants } from '../auth/auth.constants';
 import { UsersController } from './users.controller'; 
 import { MessageController } from './message.controller';
 import { AuthController } from './auth.controller';
+import { EmailsController } from './emails.controller';
 
 @Global()
 @Module({
@@ -13,11 +14,12 @@ import { AuthController } from './auth.controller';
       useFactory: async () => ({
         secret: constants.secret,
         signOptions: {
-          expiresIn: '12h',
+          expiresIn: '1d',
           algorithm: 'HS512',
         },
         verifyOptions: {
           algorithms: ['HS512'],
+          ignoreExpiration: false,
         }
       })
     }),
@@ -26,7 +28,8 @@ import { AuthController } from './auth.controller';
   controllers: [
     UsersController,
     MessageController,
-    AuthController
+    AuthController,
+    EmailsController
   ],
 })
 export class ControllersModule {}
