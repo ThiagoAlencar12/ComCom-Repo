@@ -56,5 +56,8 @@ Group -> group_messagess
 [x] - CRUD de E-mails
 [x] - Relacionamento de E-mails com Users
 
-[first] - Grupos
-[second] - Conversa
+[x] - Regras de Negocios para Email E Mensagens
+[Fazendo] - Grupos
+[Fazendo] - Conversa
+
+[Fazebdi] - Switch/Case para exclusão de mensagens

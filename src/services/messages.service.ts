@@ -1,13 +1,14 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import{ Messages } from '../models/message.entity';
+import { Users } from 'src/models/user.entity';
 
 interface RequestDTO {
   message: string;
-  sender_id: string;
-  destinatary_id: string;
+  remetente_id: string;
+  destinatario_id: string;
   hidden?: boolean;
   hidden_all?: boolean;
 }
@@ -17,6 +18,9 @@ export class MessageService {
   constructor(
     @InjectRepository(Messages)
     private messageRepository: Repository<Messages>,
+
+    @InjectRepository(Users)
+    private usersRepository: Repository<Users>,
   ) {}
 
 async findAll(): Promise<Messages[]> {
@@ -31,18 +35,16 @@ async findById(id: string): Promise<Messages> {
   return checkMessage;
 }
 
-async findByUsers(destinatario_id: string): Promise<Messages> {
-  const findUsers = await this.messageRepository.findOne({
-    where: {
-      destinatario_id
-    }
+async findByUsers(reciever_id: string): Promise<Users> {
+  const findUsers = await this.usersRepository.findOne({
+    where: { id: reciever_id }
   });
 
   return findUsers;
 }
 
-async create({ message, sender_id, destinatary_id }: RequestDTO): Promise<Messages> {
-  const findUserToSendEmail = await this.findByUsers(destinatary_id);
+async create({ message, remetente_id, destinatario_id }: RequestDTO): Promise<Messages> {
+  const findUserToSendEmail = await this.findByUsers(destinatario_id);
 
   if (!findUserToSendEmail) {
     throw new NotFoundException('User destination not exist');
@@ -50,20 +52,33 @@ async create({ message, sender_id, destinatary_id }: RequestDTO): Promise<Messag
 
   const messages = this.messageRepository.save({
     message,
-    destinatary_id,
-    sender_id,
+    destinatario_id,
+    remetente_id,
   });
 
   return messages;
 } 
 
 async delete(id: string): Promise<DeleteResult> {
-   const checkUsers = await this.findById(id);
+  const checkMessage = await this.findById(id);
 
-   if (!checkUsers) {
-     throw new NotFoundException('This User Not Exist');
-   }
+  if (!checkMessage) {
+    throw new NotFoundException('This message not exist');
+  }
 
-   return this.messageRepository.delete(id);
+  return this.messageRepository.delete(id);
+}
+
+async softRemove(id: number) {
+  const cv = await this.messageRepository.findOne(id);
+  if (!cv) {
+    throw new NotFoundException('This message not found');
+  }
+
+  const qb = this.messageRepository.createQueryBuilder('messages');
+  
+  // qb.select()
+
+  return this.messageRepository.softRemove(cv);
 }
 }

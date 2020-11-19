@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import{ Email } from '../models/email.entity';
+import { Email } from '../models/email.entity';
+import { Users } from '../models/user.entity';
 
 interface RequestDTO {
   message: string;
@@ -16,6 +17,9 @@ export class EmailsService {
   constructor(
     @InjectRepository(Email)
     private emailRepository: Repository<Email>,
+    
+    @InjectRepository(Users)
+    private usersRepository: Repository<Users>,
   ) {}
 
 async findAll(): Promise<Email[]> {
@@ -30,11 +34,9 @@ async findById(id: string): Promise<Email> {
   return checkMessage;
 }
 
-async findByUsers(reciever_id: string): Promise<Email> {
-  const findUsers = await this.emailRepository.findOne({
-    where: {
-      reciever_id
-    }
+async findByUsers(reciever_id: string): Promise<Users> {
+  const findUsers = await this.usersRepository.findOne({
+    where: { id: reciever_id }
   });
 
   return findUsers;
@@ -42,9 +44,10 @@ async findByUsers(reciever_id: string): Promise<Email> {
 
 async create({ message, sender_id, reciever_id }: RequestDTO): Promise<Email> {
   const findUserToSendEmail = await this.findByUsers(reciever_id);
+  console.log(findUserToSendEmail)
+
 
   if (!findUserToSendEmail) {
-    console.log(findUserToSendEmail)
     throw new NotFoundException('User destination not exist');
   }
 

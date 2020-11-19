@@ -1,4 +1,5 @@
-import { Entity, Column , PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column , PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn, OneToMany, ManyToMany } from 'typeorm';
+import { Messages } from './message.entity';
 
 @Entity('users')
 export class Users {
@@ -16,6 +17,9 @@ export class Users {
 
   @Column()
   online: boolean;
+
+  @ManyToMany(() => Messages)
+  message: Messages;
 
   @CreateDateColumn()
   created_at: Date;

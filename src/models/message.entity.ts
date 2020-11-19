@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne, DeleteDateColumn  } from 'typeorm';
 import{ Users } from '../models/user.entity';
 
 @Entity('messages')
@@ -22,11 +22,11 @@ export class Messages {
   destinatario_id: string;
 
   @JoinColumn({ name: 'remetente_id' })
-  @ManyToMany(() => Users )
-  user: Users;
+  @ManyToOne(() => Users )
+  user: Users[];
 
   @JoinColumn({ name: 'destinatario_id' })
-  @ManyToMany(() => Users )
+  @ManyToOne(() => Users )
 
   @CreateDateColumn()
   created_at: Date;
@@ -34,4 +34,6 @@ export class Messages {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

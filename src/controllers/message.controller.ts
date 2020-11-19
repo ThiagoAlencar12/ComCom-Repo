@@ -8,8 +8,8 @@ import { CurrentUser } from 'src/decoretors/current-user.decorator';
 
 interface MessagesDTO {
   message: string;
-  sender_id: string;
-  destinatary_id: string;
+  remetente_id: string;
+  destinatario_id: string;
   hidden?: boolean;
   hidden_all?: boolean;
 }
@@ -21,22 +21,32 @@ export class MessageController {
   ) {}
 
   @Get('/')
+  @UseGuards(RestAuthGuard)
   index(): Promise<Messages[]> {
     return this.messageService.findAll();
   }
 
   @Post('/create')
   @UseGuards(RestAuthGuard)
-  async create(@CurrentUser() currentUser: Users ,@Body() @Param('id') { destinatary_id, message }: MessagesDTO): Promise<Messages> {
+  async create(@CurrentUser() currentUser: Users ,@Body() @Param('id') { destinatario_id, message }: MessagesDTO): Promise<Messages> {
     return this.messageService.create({
-      sender_id: currentUser.id,
-      destinatary_id,
+      remetente_id: currentUser.id,
+      destinatario_id,
       message,
     });
   }
 
+  // @Delete('/delete/:id')
+  // @UseGuards(RestAuthGuard)
+  // async delete(@Param('id') id: string) {
+  //   return this.messageService.delete(id);
+  // }
+
   @Delete('/delete/:id')
-  async delete(@Param('id') id: string): Promise<any> {
-    return this.messageService.delete(id);
-  } 
+  @UseGuards(RestAuthGuard)
+  async deleteCv(
+    @Param('id') id: number,
+  ) {
+    return this.messageService.softRemove(id);
+  }
 }
