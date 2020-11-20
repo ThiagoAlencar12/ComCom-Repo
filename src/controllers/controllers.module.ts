@@ -6,6 +6,7 @@ import { UsersController } from './users.controller';
 import { MessageController } from './message.controller';
 import { AuthController } from './auth.controller';
 import { EmailsController } from './emails.controller';
+import { TalkController } from './talk.controller';
 
 @Global()
 @Module({
@@ -29,7 +30,8 @@ import { EmailsController } from './emails.controller';
     UsersController,
     MessageController,
     AuthController,
-    EmailsController
+    EmailsController,
+    TalkController
   ],
 })
 export class ControllersModule {}

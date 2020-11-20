@@ -52,12 +52,11 @@ Group -> group_messagess
 
 
 *** Fazendo ***
-[x] - Função de sender_id ser já o user logado
-[x] - CRUD de E-mails
-[x] - Relacionamento de E-mails com Users
+[Feito] - Função de sender_id ser já o user logado
+[Feito] - CRUD de E-mails
+[Feito] - Relacionamento de E-mails com Users
 
-[x] - Regras de Negocios para Email E Mensagens
-[Fazendo] - Grupos
 [Fazendo] - Conversa
-
-[Fazebdi] - Switch/Case para exclusão de mensagens
+[Aguardando] - Regras de Negocios para Email E Mensagens
+[Aguardando] - Grupos
+[Aguardando] - Switch/Case para exclusão de mensagens
