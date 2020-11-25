@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Email } from '../models/email.entity';
-import { Users } from '../models/user.entity';
+import { Email } from '../email/entities/email.entity';
+import { Users } from '../user/entities/user.entity';
 
 interface RequestDTO {
   message: string;
@@ -13,7 +13,7 @@ interface RequestDTO {
 }
 
 @Injectable()
-export class EmailsService {
+export class EmailService {
   constructor(
     @InjectRepository(Email)
     private emailRepository: Repository<Email>,

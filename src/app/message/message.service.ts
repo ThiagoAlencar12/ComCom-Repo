@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import{ Messages } from '../models/message.entity';
-import { Users } from 'src/models/user.entity';
+import { Messages } from '../message/entities/message.entity';
+import { Users } from '../user/entities/user.entity';
 
 interface RequestDTO {
   message: string;

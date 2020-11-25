@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards } from '@nestjs/common';
-import { CurrentUser } from '../decoretors/current-user.decorator';
-import { UsersService } from '../services/users.service';
-import { RestAuthGuard } from '../guards/rest-auth.guard';
-import { Users }from '../models/user.entity';
+import { CurrentUser } from '../../../auth/decoretors/current-user.decorator';
+import { UsersService } from '../user.service';
+import { RestAuthGuard } from '../../../guards/rest-auth.guard';
+import { Users }from '../entities/user.entity';
 
 @Controller('users')
 export class UsersController {

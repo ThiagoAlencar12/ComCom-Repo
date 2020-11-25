@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards} from '@nestjs/common';
-import { MessageService } from '../services/messages.service';
+import { MessageService } from '../message.service';
 
-import { Messages } from '../models/message.entity';
-import { RestAuthGuard } from 'src/guards';
-import { Users } from 'src/models/user.entity';
-import { CurrentUser } from 'src/decoretors/current-user.decorator';
+import { Messages } from '../entities/message.entity';
+import { RestAuthGuard } from '../../../guards';
+import { Users } from '../../user/entities/user.entity';
+import { CurrentUser } from '../../../auth/decoretors/current-user.decorator';
 
 interface MessagesDTO {
   message: string;

@@ -1,10 +1,11 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards} from '@nestjs/common';
-import { EmailsService } from '../services/emails.service';
+import { EmailService } from '../email.service';
 
-import { Email } from '../models/email.entity';
-import { RestAuthGuard } from 'src/guards';
-import { Users } from 'src/models/user.entity';
-import { CurrentUser } from 'src/decoretors/current-user.decorator';
+import { Email } from '../../email/entities/email.entity';
+import { Users } from '../../user/entities/user.entity';
+
+import { RestAuthGuard } from '../../../guards';
+import { CurrentUser } from 'src/auth/decoretors/current-user.decorator';
 
 interface MessagesDTO {
   message: string;
@@ -14,12 +15,13 @@ interface MessagesDTO {
 }
 
 @Controller('emails')
-export class EmailsController {
+export class EmailController {
   constructor(
-    private emailService: EmailsService,
+    private emailService: EmailService,
   ) {}
 
   @Get('/')
+  @UseGuards(RestAuthGuard)
   index(): Promise<Email[]> {
     return this.emailService.findAll();
   }
@@ -36,6 +38,7 @@ export class EmailsController {
   }
 
   @Delete('/delete/:id')
+  @UseGuards(RestAuthGuard)
   async delete(@Param('id') id: string): Promise<any> {
     return this.emailService.delete(id);
   } 

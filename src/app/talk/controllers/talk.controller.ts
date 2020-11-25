@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Body, Param, Delete, UseGuards} from '@nestjs/common';
 
-import { RestAuthGuard } from 'src/guards';
-import { CurrentUser } from 'src/decoretors/current-user.decorator';
+import { RestAuthGuard } from '../../../guards';
+import { CurrentUser } from '../../../auth/decoretors/current-user.decorator';
 
-import { Users } from 'src/models/user.entity';
-import { Talk } from '../models/talk.entity';
+import { Users } from '../../user/entities/user.entity';
+import { Talk } from '../entities/talk.entity';
 
-import { TalkService } from '../services/talk.service';
+import { TalkService } from '../talk.service';
 
 interface TalkDTO {
   user_primary: string;

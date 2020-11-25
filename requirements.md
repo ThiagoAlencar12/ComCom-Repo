@@ -56,7 +56,7 @@ Group -> group_messagess
 [Feito] - CRUD de E-mails
 [Feito] - Relacionamento de E-mails com Users
 
-[Feito] - Conversa
+[Fazendo] - Conversa
 [Fazendo] - Grupos
-[Aguardando] - Regras de Negocios para Email E Mensagens
-[Aguardando] - Switch/Case para exclusão de mensagens
+[WebSockets(SocketIO)] - RealTime
+

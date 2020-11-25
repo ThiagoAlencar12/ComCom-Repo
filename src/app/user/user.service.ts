@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeleteResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash } from 'bcrypt';
-import { Users } from '../models/user.entity';
+import { Users } from './entities/user.entity';
 
 interface RequestDTO {
   name: string;
