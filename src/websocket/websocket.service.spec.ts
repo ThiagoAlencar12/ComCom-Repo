@@ -12,7 +12,7 @@ describe('WebsocketService', () => {
     service = module.get<WebsocketService>(WebsocketService);
   });
 
-  it('should be defined', () => {
+  it('should be defined[WebSockets]', () => {
     expect(service).toBeDefined();
   });
 });

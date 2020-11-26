@@ -5,7 +5,7 @@ import { Email } from '../../email/entities/email.entity';
 import { Users } from '../../user/entities/user.entity';
 
 import { RestAuthGuard } from '../../../guards';
-import { CurrentUser } from 'src/auth/decoretors/current-user.decorator';
+import { CurrentUser } from '../../../auth/decoretors/current-user.decorator';
 
 interface MessagesDTO {
   message: string;
