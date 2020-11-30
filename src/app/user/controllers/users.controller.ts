@@ -19,7 +19,7 @@ export class UsersController {
   @Get('/')
   @UseGuards(RestAuthGuard)
   index(): Promise<Users[]> {
-    return this.usersService.findAll();
+    return this.usersService.find();
   }
 
   @Post('/create')
