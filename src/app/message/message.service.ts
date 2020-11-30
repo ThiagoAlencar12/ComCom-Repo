@@ -38,7 +38,7 @@ async findById(id: string): Promise<Messages> {
 async findByUsers(receiver_id: string): Promise<Users> {
   const findUsers = await this.usersRepository.findOne({
     where: { id: receiver_id }
-  });
+  })
 
   return findUsers;
 }

@@ -48,7 +48,7 @@ describe('UserService', () => {
       expect(users).resolves.toBe({
         name: 'Thiago Alencar',
         email: 'teste@teste.com',
-        password: '123123',
+        password: '123123'
       });
       expect(mockUsersRepository().findAll).toHaveBeenCalledTimes(1);
     });

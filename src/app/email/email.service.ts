@@ -37,7 +37,7 @@ async findById(id: string): Promise<Email> {
 async findByUsers(reciever_id: string): Promise<Users> {
   const findUsers = await this.usersRepository.findOne({
     where: { id: reciever_id }
-  });
+  })
 
   return findUsers;
 }
