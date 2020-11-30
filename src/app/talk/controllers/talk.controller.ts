@@ -30,7 +30,7 @@ export class TalkController {
   async create(@CurrentUser() currentUser: Users ,@Body() @Param('id') { user_secundary }: TalkDTO): Promise<Talk> {
     return this.messageService.create({
       user_primary: currentUser.id,
-      user_secundary,
+      user_secondary: user_secundary,
     });
   }
 
