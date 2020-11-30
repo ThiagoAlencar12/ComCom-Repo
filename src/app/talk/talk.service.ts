@@ -7,7 +7,7 @@ import { Users } from '../user/entities/user.entity';
 
 interface RequestDTO {
   user_primary: string;
-  user_secundary: string;
+  user_secondary: string;
 }
 
 @Injectable()
@@ -32,24 +32,24 @@ export class TalkService {
     return checkTalk;
   }
 
-  async findUserToTalk(user_secundary: string): Promise<Users> {
+  async findUserToTalk(user_secondary: string): Promise<Users> {
     const findUsers = await this.usersRepository.findOne({
-      where: { id: user_secundary }
+      where: { id: user_secondary }
     });
 
     return findUsers;
   }
 
-  async create({ user_primary, user_secundary }: RequestDTO): Promise<Talk> {
-    const findUserToSendMessageTotalk = await this.findUserToTalk(user_secundary);
+  async create({ user_primary, user_secondary }: RequestDTO): Promise<Talk> {
+    const findUserToSendMessageTalk = await this.findUserToTalk(user_secondary);
 
-    if (!findUserToSendMessageTotalk) {
+    if (!findUserToSendMessageTalk) {
       throw new NotFoundException('User destination not exist');
     }
 
     const talk = this.talkRepository.save({
       user_primary,
-      user_secundary,
+      user_secondary: user_secondary,
     });
 
     return talk;
