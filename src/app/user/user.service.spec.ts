@@ -4,10 +4,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Users } from './entities/user.entity';
 import { UsersService } from './user.service';
 
+import FakeUtilsUsers from './fakes/FakeUtilsUsers';
+
 describe('UserService', () => {
   let serviceUsers: UsersService;
 
-  const mockUsersRepository = () => ({
+  const mockUsersRepository = ({
     findAll: jest.fn(),
     findById: jest.fn(),
     findByEmail: jest.fn(),
@@ -16,6 +18,15 @@ describe('UserService', () => {
     delete: jest.fn(),
   });
 
+  // const mockServiceRepository = () => ({
+  //   findAll: jest.fn(),
+  //   findById: jest.fn(),
+  //   findByEmail: jest.fn(),
+  //   create: jest.fn(),
+  //   update: jest.fn(),
+  //   delete: jest.fn(),
+  // });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -23,7 +34,6 @@ describe('UserService', () => {
         {
           provide: getRepositoryToken(Users),
           useValue: mockUsersRepository,
-          useFactory: mockUsersRepository,
         }
       ],
     }).compile();
@@ -36,21 +46,12 @@ describe('UserService', () => {
 
   describe('Users',() => {
     it('should be able list users', async () => {
+     const user = FakeUtilsUsers.testeUser();
+     mockUsersRepository.findAll.mockReturnValue([ user, user, user ]);
+     const users = await serviceUsers.findAll();
 
-      const users = await serviceUsers.findAll();
-
-      mockUsersRepository().findAll.mockResolvedValue({
-        name: 'Thiago Alencar',
-        email: 'teste@teste.com',
-        password: '123123',
-      });
-
-      expect(users).resolves.toBe({
-        name: 'Thiago Alencar',
-        email: 'teste@teste.com',
-        password: '123123'
-      });
-      expect(mockUsersRepository().findAll).toHaveBeenCalledTimes(1);
+     expect(users).toHaveLength(3);
+     expect(mockUsersRepository.findAll).toHaveBeenCalledTimes(1);
     });
   });
 });

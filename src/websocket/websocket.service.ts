@@ -7,7 +7,7 @@ export class WebsocketService implements OnGatewayInit {
   private server: Server;
 
   afterInit(server: Socket ) {
-    console.log(server);
+    console.log('server');
   }
 
   // handleConnection(client: Socket, ...args: any[]) {

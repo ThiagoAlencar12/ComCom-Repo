@@ -6,6 +6,7 @@ import { constants } from '../../auth/auth.constants';
 import { Users } from './entities/user.entity';
 import { UsersService } from './user.service';
 import { UsersController } from './controllers/users.controller';
+import { AuthController } from './controllers/auth.controller';
 
 @Global()
 @Module({
@@ -28,7 +29,7 @@ import { UsersController } from './controllers/users.controller';
     }),
   ],
   providers: [ UsersService ],
-  controllers: [ UsersController ],
+  controllers: [ UsersController, AuthController ],
   exports: [
     UsersService
   ],

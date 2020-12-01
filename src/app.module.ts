@@ -19,6 +19,6 @@ import * as Options from './config/ormConfig';
     EmailModule,
     TalkModule,
   ],
-  providers: [WebsocketService],
+  providers: [ WebsocketService ],
 })
 export class AppModule {}
