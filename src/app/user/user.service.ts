@@ -42,12 +42,12 @@ async findByEmail(email: string): Promise<Users> {
   return checkEmail;
 }
 
-async create({ name, email, password }: RequestDTO): Promise<Users> {
-  const findEmail = await this.findByEmail(email);
-
-  if(findEmail) {
-    throw new BadRequestException('This E-mail Already Exist');
-  }
+async create({ name, email, password,  }: RequestDTO): Promise<Users> {
+  // const findEmail = await this.findByEmail(email);
+  //
+  // if(findEmail) {
+  //   throw new BadRequestException('This E-mail Already Exist');
+  // }
 
   const hashPassword = await hash(password, 8);
 

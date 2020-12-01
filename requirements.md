@@ -60,3 +60,5 @@ Group -> group_messagess
 [Fazendo] - Grupos
 [WebSockets(SocketIO)] - RealTime
 
+arielbandeira
+jose077

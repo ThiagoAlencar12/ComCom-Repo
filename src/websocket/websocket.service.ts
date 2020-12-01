@@ -2,13 +2,11 @@ import { OnGatewayInit, WebSocketGateway, WebSocketServer } from '@nestjs/websoc
 import { Server, Socket } from 'socket.io';
 
 @WebSocketGateway()
-export class WebsocketService implements OnGatewayInit {
+export class WebsocketService   {
   @WebSocketServer()
   private server: Server;
 
-  afterInit(server: Socket ) {
-    console.log('server');
-  }
+
 
   // handleConnection(client: Socket, ...args: any[]) {
   //   console.log(client);

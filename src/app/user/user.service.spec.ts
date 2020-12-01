@@ -10,22 +10,13 @@ describe('UserService', () => {
   let serviceUsers: UsersService;
 
   const mockUsersRepository = ({
-    findAll: jest.fn(),
+    find: jest.fn(),
+    findOne: jest.fn(),
     findById: jest.fn(),
-    findByEmail: jest.fn(),
-    create: jest.fn(),
+    save: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
   });
-
-  // const mockServiceRepository = () => ({
-  //   findAll: jest.fn(),
-  //   findById: jest.fn(),
-  //   findByEmail: jest.fn(),
-  //   create: jest.fn(),
-  //   update: jest.fn(),
-  //   delete: jest.fn(),
-  // });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -44,15 +35,50 @@ describe('UserService', () => {
     expect(serviceUsers).toBeDefined();
   });
 
-  describe('Users',() => {
-    it('should be able list users', async () => {
-     const user = FakeUtilsUsers.testeUser();
-     mockUsersRepository.findAll.mockReturnValue([ user, user, user ]);
-     const users = await serviceUsers.findAll();
+  it('should be able list users [Service Users]', async () => {
+    const user = FakeUtilsUsers.testeUser();
+    mockUsersRepository.find.mockReturnValue([ user, user, user ]);
+    const users = await serviceUsers.findAll();
 
-     expect(users).toHaveLength(3);
-     expect(mockUsersRepository.findAll).toHaveBeenCalledTimes(1);
-    });
+    expect(users).toHaveLength(3);
+    expect(mockUsersRepository.find).toHaveBeenCalledTimes(1);
+   });
+
+  it('should be able to find a user by id', async () => {
+    const user = FakeUtilsUsers.testeUser();
+    mockUsersRepository.findOne.mockReturnValue(user.id);
+
+    const users = await serviceUsers.findById(user.id);
+    expect(users).toBe(user.id);
+    expect(mockUsersRepository.findOne).toHaveBeenCalledTimes(1);
+  });
+
+  it('should be able to find a user by email', async () => {
+    const user = FakeUtilsUsers.testeUser();
+    mockUsersRepository.findOne.mockReturnValue(user.email);
+    const users = await serviceUsers.findByEmail(user.email);
+
+    await expect(users).toBe(user.email);
+    expect(mockUsersRepository.findOne).toHaveBeenCalledTimes(2);
+  });
+
+  it('should be able to create a new user', async () => {
+    const user = FakeUtilsUsers.testeUser();
+    mockUsersRepository.save.mockReturnValue(user);
+
+    const users = await serviceUsers.create(user);
+    await expect(user).toMatchObject(users);
+
+    // await expect(users).rejects.toContainEqual(user.email)
+  });
+
+  it('should be able to update user', async () => {
+    const user = FakeUtilsUsers.testeUser();
+
+    mockUsersRepository.findOne.mockReturnValue(user.id);
+
+    const findId = await serviceUsers.findById(user.id);
+    await expect(findId).toBe(user.id);
   });
 });
 
